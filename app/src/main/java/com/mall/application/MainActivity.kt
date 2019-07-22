@@ -18,6 +18,7 @@ class MainActivity : AppCompatActivity() {
         RestClient
             .builder()
             .url("http://mock.fulingjie.com/mock/api/index.php")
+            .loader(this@MainActivity)
             .params("","")
             .success(object:ISuccess{
                 override fun onSuccess(response: String) {

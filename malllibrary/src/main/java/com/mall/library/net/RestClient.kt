@@ -1,7 +1,10 @@
 package com.mall.library.net
 
+import android.content.Context
 import android.hardware.camera2.CaptureFailure
 import com.mall.library.net.callback.*
+import com.mall.library.ui.loader.MallLoader
+import com.mall.library.ui.loader.Style
 import retrofit2.Call
 import retrofit2.Callback
 import java.util.*
@@ -10,13 +13,15 @@ import java.util.*
  * 在所有依赖mall-library的app中对外暴露直接使用的客户端
  */
 class RestClient internal constructor(
-    private var url:String?,
+    private val url:String?,
     private val params:WeakHashMap<String,Any>?,
-    private var request:IRequest?,
-    private var success:ISuccess?,
-    private var failure: IFailure?,
-    private var error:IError?,
-    private var conplete:IComplete?
+    private val request:IRequest?,
+    private val success:ISuccess?,
+    private val failure: IFailure?,
+    private val error:IError?,
+    private val conplete:IComplete?,
+    private val context: Context?,
+    private val loaderStyle: Style?
 ){
 
     companion object {
@@ -31,6 +36,11 @@ class RestClient internal constructor(
         val call: Call<String>?
 
         request?.onRequestStart()
+
+
+        if(loaderStyle!=null){
+            MallLoader.showLoading(context,loaderStyle)
+        }
 
 
         call=when(method){
@@ -48,7 +58,7 @@ class RestClient internal constructor(
     }
 
     private val requestCallback: Callback<String>
-    get()=RequestCallback(request,success,failure,error,conplete)
+    get()=RequestCallback(request,success,failure,error,conplete,loaderStyle)
 
     fun get(){
         request(HttpMethod.GET)

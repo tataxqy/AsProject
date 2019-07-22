@@ -62,12 +62,20 @@ class RestClientBuilder (
         return this
     }
 
-    fun loader(context:Context?,styles:Style){
-        
+    fun loader(context:Context,styles:Style):RestClientBuilder{
+        this.context=context
+        this.loaderStyle=styles
+        return this
+    }
+
+    fun loader(context:Context):RestClientBuilder{
+        this.context=context
+        this.loaderStyle=Style.BallSpinFadeLoaderIndicator
+        return this
     }
 
     fun build():RestClient{
-        return RestClient(url,mParams,request,success,failure,error,complete)
+        return RestClient(url,mParams,request,success,failure,error,complete,context,loaderStyle)
     }
 
 

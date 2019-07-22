@@ -3,6 +3,7 @@ package com.mall.library.global
 import android.os.Handler
 import com.mall.library.util.storage.MemoryStore
 import java.lang.RuntimeException
+import java.util.concurrent.Delayed
 
 /**
  *全局控制类
@@ -42,6 +43,11 @@ class Configurator private constructor(){
         mStore.addData(GlobalKeys.API_HOST,host)
         return this
 
+    }
+
+    fun withLoaderDelayed(delayed: Long):Configurator{
+        mStore.addData(GlobalKeys.LOADER_DELAY,delayed)
+        return this
     }
 
     //配置完成
